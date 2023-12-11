@@ -1,0 +1,54 @@
+class Integer:
+    def __init__(self, name: str, value: int) -> None:
+        self.name = name
+        if isinstance(value, str):
+            self.value = int(value)
+        else:
+            self.value = value
+
+    def __str__(self):
+        return str(self.value)
+
+
+class String:
+    def __init__(self, name: str, value: str) -> None:
+        self.name = name
+        if isinstance(value, str):
+            if not value.startswith('"'):
+             value = '"' + value + '"'
+        elif value.value[-1] != '"':
+            value = '"' + value + '"'
+
+        self.value = value
+        # print(self.value)
+
+    def __add__(self, other):
+        return String('asdf', self.name + other.name)
+
+    def __str__(self):
+        return str(self.value)
+
+
+class Double:
+    def __init__(self, name: str, value: str) -> None:
+        self.name = name
+        if isinstance(value, str):
+            # print(value)
+            self.value = float(value)
+        else:
+            self.value = value
+
+    def __str__(self):
+        return str(self.value)
+
+
+class Boolean:
+    def __init__(self, name: str, value: str) -> None:
+        self.name = name
+        if isinstance(value, str):
+            self.value = eval(value.capitalize())
+        else:
+            self.value = value.value
+
+    def __str__(self):
+        return str(self.value)
