@@ -72,7 +72,13 @@ def assignment_analyze(code: list) -> list:
 
 def check_analyze(code: list) -> list:
     """If statement analyze"""
-    ...
+
+    condition_validator(code[1:-1])
+
+    if code[-1] != '{':
+        raise SyntaxError('Invalid syntax in check statement')
+
+    return code
 
 
 def other_analyze(code: list) -> list:

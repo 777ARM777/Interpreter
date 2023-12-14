@@ -1,14 +1,30 @@
 decl integer x = 7
-decl double y = 5.0
+decl double y = 5.5
 decl boolean w = true
 
+check y == 2 + 3.7 {
+    decl string x = 'asdf'
+    x = 'edc'
+    y = 8
+    display 'enclosing1'
 
-x = ( 4 + 7 ) * 8 * 8.5
-display x
+    check x == 'edc'  {
+        decl double y = 87.2
+        y = 9.5
 
-display 5 + 4
+        display 'local'
+    }
+    other {
+        display 'other'
+    }
 
-read y
 
-display y + 6.5
+    display 'enclosing2'
+}
+other {
+    display 'other2'
+}
 
+
+
+display 'global'

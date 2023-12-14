@@ -30,7 +30,6 @@ def typeof(value: any):
 
     raise ValueError(f'{value} is not a literal or valid variable.')
 
-
 def get_variable(var: str):
     for i in range(len(scopes) - 1, -1, -1):
         if var in scopes[i]:
@@ -40,7 +39,7 @@ def get_variable(var: str):
 
 def get_variable_scope(var: str):
     for i in range(len(scopes) - 1, -1, -1):
-        if var in opes[i]:
+        if var in scopes[i]:
             return i
 
     return None
@@ -109,17 +108,14 @@ def string_validator(input_string):
         return False
 
 
-def expression_validator(expression):
-    # print(expression)
-    # Define the regex pattern for a basic arithmetic expression
-    # print('Expression: ', expression)
+def expression_validator(expression) -> bool:
     pattern = re.compile(r'^\s*(\d+(\.\d+)?)\s*([+\-*/]\s*\d+(\.\d+)?\s*)*$')
-
-    # Match the pattern against the input expression
     match = pattern.match(expression)
 
-    # Check if the expression is valid
     if match:
         return True
     else:
         return False
+
+def condition_validator(code: str) -> bool:  # TODO
+    pass
