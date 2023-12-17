@@ -1,6 +1,5 @@
 class Integer:
-    def __init__(self, name: str, value: int) -> None:
-        self.name = name
+    def __init__(self, value: int) -> None:
         if isinstance(value, str):
             self.value = int(value)
         else:
@@ -11,8 +10,7 @@ class Integer:
 
 
 class String:
-    def __init__(self, name: str, value: str) -> None:
-        self.name = name
+    def __init__(self, value: str) -> None:
         if isinstance(value, str):
             if not value.startswith('"'):
              value = '"' + value + '"'
@@ -29,8 +27,7 @@ class String:
 
 
 class Double:
-    def __init__(self, name: str, value: str) -> None:
-        self.name = name
+    def __init__(self, value: str) -> None:
         if isinstance(value, str):
             self.value = float(value)
         else:
@@ -41,8 +38,7 @@ class Double:
 
 
 class Boolean:
-    def __init__(self, name: str, value: str) -> None:
-        self.name = name
+    def __init__(self, value: str) -> None:
         if isinstance(value, str):
             self.value = eval(value.capitalize())
         else:

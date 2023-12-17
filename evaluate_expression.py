@@ -62,7 +62,7 @@ def infix_to_postfix(infix: str) -> str:
 def calculate(operand1, operand2, op):
     expression = f"{operand1} {op} {operand2}"
     T = eval(typeof(operand1))
-    return T('a', eval(expression))
+    return T(eval(expression))
 
 def evaluate_postfix(postfix: str) -> any:
     # print('Postfix: ', postfix)
@@ -73,7 +73,7 @@ def evaluate_postfix(postfix: str) -> any:
         if is_operand(postfix[i]):
             if is_literal(postfix[i]):
                 tmp = eval(typeof(postfix[i]))
-                stack.push(tmp('a', postfix[i]))
+                stack.push(tmp(postfix[i]))
             var =  get_variable(postfix[i])
             if var:
                 stack.push(var)

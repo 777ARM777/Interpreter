@@ -6,7 +6,7 @@ from evaluate_expression import *
 
 def decl_function(code: list) -> int:
     """For variable declaration"""
-    scopes[-1][code[2]] = eval(f'{code[1].capitalize()}')(code[2], code[4])
+    scopes[-1][code[2]] = eval(f'{code[1].capitalize()}')(code[4])
     return 0
 
 def read_function(code: list) -> int:
@@ -22,7 +22,7 @@ def read_function(code: list) -> int:
     if not eval(f'{(var.__class__.__name__).lower()}_validator')(value):
         raise ValueError(f'Invalid literal {value} for type {code[1]}')
 
-    value = T(code[1], value)
+    value = T(value)
     scope_index = get_variable_scope(code[1])
     scopes[scope_index][code[1]] = value
     return 0
@@ -30,14 +30,19 @@ def read_function(code: list) -> int:
 
 def display_function(code: list) -> int:
     """Print function"""
+    with open('output.txt', 'a') as out_stream:
+        if len(code) > 2:
+            expression = infix_to_postfix(' '.join(code[1:]))
+            # print(evaluate_postfix(expression))
+            out_stream.write(str(evaluate_postfix(expression)) + '\n')
 
-    if len(code) > 2:
-        expression = infix_to_postfix(' '.join(code[1:]))
-        print(evaluate_postfix(expression))
-    elif is_literal(code[1]):
-        print(code[1])
-    else:
-        print(get_variable(code[1]))
+        elif is_literal(code[1]):
+            # print(code[1])
+            out_stream.write(code[1] + '\n')
+
+        else:
+            # print(get_variable(code[1]))
+            out_stream.write(str(get_variable(code[1])) + '\n')
 
     return 0
 
@@ -49,7 +54,7 @@ def assignment_function(code: list) -> int:
     T = eval(get_variable(code[0]).__class__.__name__)
 
     scope_index = get_variable_scope(code[0])
-    value = T(code[0], evaluate_postfix(postfix))
+    value = T(evaluate_postfix(postfix))
     op = code[1]
 
     if op != '=':

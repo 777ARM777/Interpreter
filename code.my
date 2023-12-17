@@ -4,7 +4,7 @@ decl boolean w = true
 
 check y > 2 + 3.2 {
     decl string x = 'asdf'
-    x = 'edc'
+    read x
     y = 8
     display 'enclosing1'
     check x == 'edc'  {
@@ -29,13 +29,16 @@ check y > 2 + 3.2 {
         }
         display 'local'
     }
+
     other {
         display 'other'
     }
 
 
     display 'enclosing2'
+
 }
+
 other {
     display 'other2'
 }
