@@ -59,16 +59,15 @@ def infix_to_postfix(infix: str) -> str:
 
     return postfix.strip()
 
+def calculate(operand1, operand2, op):
+    expression = f"{operand1} {op} {operand2}"
+    T = eval(typeof(operand1))
+    return T('a', eval(expression))
 
 def evaluate_postfix(postfix: str) -> any:
     # print('Postfix: ', postfix)
     postfix = re.findall(r'"[^"]*"|\S+', postfix)
     stack = Stack()
-
-    def calculate(operand1, operand2, op):
-        expression = f"{operand1} {op} {operand2}"
-        T = eval(typeof(operand1))
-        return T('a', eval(expression))
 
     for i in range(len(postfix)):
         if is_operand(postfix[i]):

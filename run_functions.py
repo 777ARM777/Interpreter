@@ -50,6 +50,10 @@ def assignment_function(code: list) -> int:
 
     scope_index = get_variable_scope(code[0])
     value = T(code[0], evaluate_postfix(postfix))
+    op = code[1]
+
+    if op != '=':
+        value = calculate(scopes[scope_index][code[0]], value, op[:-1])
 
     scopes[scope_index][code[0]] = value
 

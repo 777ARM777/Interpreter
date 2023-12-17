@@ -96,6 +96,7 @@ if __name__ == '__main__':
                             i += 1
 
                     i = check_line + 1
+                    # print(code[check_line][index2 + 1:-2])
                     assignment_function(code[check_line][index2 + 1:-2])
 
             elif a == 4:
