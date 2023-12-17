@@ -9,24 +9,20 @@ if __name__ == '__main__':
     i = 0
     count = 0
     condition_stack = Stack()
-    # print(condition_stack.items)
+    loop_stack = Stack()
     while i < len(code):
-        # print(code[i][:-1])
-        code[i] = code[i].strip()
+        if isinstance(code[i], str):
+            code[i] = code[i].strip()
 
-        # for s in scopes:
-        #     print(s)
-        # print()
-        if code[i].startswith('}'):                     # End of scope
+        if '}' in code[i]:                     # End of scope
             scopes.pop()
             if condition_stack.top()[1]:
                 condition_stack.pop()
                 count -= 1
 
-        elif code[i].startswith('other'):               # else case
+        elif 'other' in code[i]:               # else case
             if not condition_stack.top()[0]:
                 raise SyntaxError('Other without Check')
-            # print(i + 1, code[i])
             scopes.append({})
             if condition_stack.top()[1]:                         # if else case then does this
                 count += 1
@@ -35,7 +31,6 @@ if __name__ == '__main__':
             else:                                       # if not else case then passes else
                 while i < len(code) - 1:
                     i += 1
-                    # print(i, code[i])
                     code[i] = code[i].strip().split(' ')
                     if code[i][0] in ('check', 'other', 'step', 'till'):
                         count += 1
@@ -43,19 +38,19 @@ if __name__ == '__main__':
                     if code[i][0].startswith('}'):
                         if count == 0:
                             condition_stack.pop()
-                            # print(i + 1, code[i])
                             scopes.pop()
                             break
                         else:
                             count -= 1
-                # print(i + 1, code[i])
-                # scopes.pop()
 
         else:
+            if code[i] is None or code[i] == ['']:
+                i += 1
+                continue
             code[i] = analyze_code(code[i])
             a = run_line(code[i])
 
-            if a == 1 or a == 2:
+            if a != 0:
                 condition_stack.push([True, False])
                 scopes.append({})
 
@@ -66,18 +61,63 @@ if __name__ == '__main__':
                     i += 1
                     code[i] = code[i].strip().split(' ')
 
-                    if code[i][0] in ('check', 'other', 'step', 'till'):
+                    if code[i][-1] == '{':
                         count += 1
 
                     if code[i][0] == '}' or code[i][0] == '}\n':
                         if count == 0:
-                            # print(i + 1, code[i])
                             scopes.pop()
                             break
                         else:
                             count -= 1
-                # print(i + 1, code[i])
-                # scopes.pop()
 
+            elif a == 3:
+                check_line = i
+                first_loop = True
+
+                index1 = code[i].index(':')
+                index2 = code[i].index(':', index1 + 1)
+
+                i += 1
+                while check_function(['check'] + code[check_line][index1 + 1: index2] + ['{']) == 1:
+                    # print('i = ', get_variable('i'))
+                    while '}' not in code[i]:
+                        if first_loop:
+                            code[i] = code[i].strip()
+                            code[i] = analyze_code(code[i])
+                            a = run_line(code[i])
+                            first_loop = False
+                        else:
+                            if isinstance(code[i], str):
+                                code[i] = code[i].strip().split(' ')
+                            a = run_line(code[i])
+                        i += 1
+                        if code[i] is None:
+                            i += 1
+
+                    i = check_line + 1
+                    assignment_function(code[check_line][index2 + 1:-2])
+
+            elif a == 4:
+                check_line = i
+                first_loop = True
+                i += 1
+
+                while check_function(['check'] + code[check_line][2:-2] + ['{']) == 1:
+                    i = check_line + 1
+                    if not code[i]:
+                        i += 1
+                    if not code[i]:
+                        i += 1
+                    while '}' not in code[i]:
+                        if first_loop:
+                            code[i] = code[i].strip()
+                            code[i] = analyze_code(code[i])
+
+                        a = run_line(code[i])
+                        i += 1
+                        if code[i] is None:
+                            i += 1
+                    first_loop = False
 
         i += 1

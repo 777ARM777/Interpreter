@@ -4,8 +4,8 @@ from variables import *
 from my_types import *
 
 
-def run_line(code: str) -> list:
-    if code is None:
+def run_line(code: list) -> list:
+    if code is None or code == ['']:
         return []
     if code[0] in keywords:
         func = eval(f'{code[0]}_function')
@@ -16,10 +16,10 @@ def run_line(code: str) -> list:
 def analyze_code(code):
     if not code:
         return
-
     # Split code
     is_str = False
     res = ['']
+
     for i in code:
         if i == ' ' and not is_str:
             res.append('')
@@ -28,7 +28,6 @@ def analyze_code(code):
             is_str = not is_str
         else:
             res[-1] += i
-    # print(res)
 
     for keyword in keywords:
         if res[0] == keyword:

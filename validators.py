@@ -11,6 +11,9 @@ def is_literal(value: str) -> bool:
     if value[0] == '"':
         return True
 
+def is_condition_operator(value: str) -> bool:
+    return value in condition_operators
+
 def typeof(value: any):
     var = get_variable(value)
     if var:
@@ -108,14 +111,8 @@ def string_validator(input_string):
         return False
 
 
-def expression_validator(expression) -> bool:
-    pattern = re.compile(r'^\s*(\d+(\.\d+)?)\s*([+\-*/]\s*\d+(\.\d+)?\s*)*$')
-    match = pattern.match(expression)
-
-    if match:
-        return True
-    else:
-        return False
+def expression_validator(expression) -> bool:  # TODO
+    pass
 
 def condition_validator(code: str) -> bool:  # TODO
     pass

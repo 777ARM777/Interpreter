@@ -33,7 +33,7 @@ def infix_to_postfix(infix: str) -> str:
 
         elif i == ')':
             while not stack.is_empty() and stack.top() != '(':
-                postfix += stack.top()
+                postfix += ' ' + stack.top()
                 stack.pop()
             if not stack.is_empty():
                 stack.pop()
@@ -45,7 +45,7 @@ def infix_to_postfix(infix: str) -> str:
 
         elif is_operator(i):
             while not stack.is_empty() and is_operator(stack.top()) and priority(stack.top()) >= priority(i):
-                postfix += stack.top()
+                postfix += ' ' + stack.top()
                 stack.pop()
             stack.push(i)
 
@@ -67,7 +67,6 @@ def evaluate_postfix(postfix: str) -> any:
 
     def calculate(operand1, operand2, op):
         expression = f"{operand1} {op} {operand2}"
-        # print(expression)
         T = eval(typeof(operand1))
         return T('a', eval(expression))
 
@@ -83,5 +82,4 @@ def evaluate_postfix(postfix: str) -> any:
             operand2 = stack.pop()
             operand1 = stack.pop()
             stack.push(calculate(operand1, operand2, postfix[i]))
-    # print(stack.top())
     return stack.top()
