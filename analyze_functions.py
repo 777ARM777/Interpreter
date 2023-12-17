@@ -3,7 +3,21 @@ from validators import *
 
 
 def decl_analyze(code: list) -> list:
-    """For variable declaration analyze"""
+    """
+    Analyze a variable declaration expression.
+
+    Args:
+    - code (list): The code representing the variable declaration.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    - TypeError: If the type name is not valid.
+    - NameError: If the variable name is not valid or already defined.
+    - ValueError: If the literal value is not valid for the specified type.
+    """
     if len(code) != 5:
         raise SyntaxError('Invalid expression')
 
@@ -25,13 +39,23 @@ def decl_analyze(code: list) -> list:
 
         raise ValueError(f'Invalid literal {code[4]} for type {code[1]}')
 
-
-
     return code
 
-def read_analyze(code: list) -> list:
-    """Input analyze"""
 
+def read_analyze(code: list) -> list:
+    """
+    Analyze an input statement.
+
+    Args:
+    - code (list): The code representing the input statement.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    - NameError: If the variable name is not valid or not defined.
+    """
     if len(code) != 2:
         raise SyntaxError('Invalid expression for reading variable')
 
@@ -43,10 +67,21 @@ def read_analyze(code: list) -> list:
 
 
 def display_analyze(code: list) -> list:
-    """Print analyze"""
+    """
+    Analyze a print statement.
 
+    Args:
+    - code (list): The code representing the print statement.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    - NameError: If the variable name is not valid or not defined.
+    """
     if len(code) < 2:
-            raise SyntaxError('Invalid expression for displaying element')
+        raise SyntaxError('Invalid expression for displaying element')
 
     if not is_literal(code[1]) and not code[1] == '(':
         var = get_variable(code[1])
@@ -57,20 +92,43 @@ def display_analyze(code: list) -> list:
 
 
 def assignment_analyze(code: list) -> list:
-    """For expressions analyze"""
+    """
+    Analyze an assignment expression.
+
+    Args:
+    - code (list): The code representing the assignment expression.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    - NameError: If the variable name is not valid or not defined.
+    """
     var = get_variable(code[0])
     if not var:
         raise NameError(f'Invalid name of variable {code[0]}')
     if code[1] not in assignment_operators:
         raise SyntaxError('Invalid expression')
 
-    expression_validator(' '.join(code[2:]))  #TODO
+    expression_validator(' '.join(code[2:]))  # TODO
 
     return code
 
 
 def check_analyze(code: list) -> list:
-    """If statement analyze"""
+    """
+    Analyze an if statement.
+
+    Args:
+    - code (list): The code representing the if statement.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    """
     condition_validator(code[1:-1])
 
     if code[-1] != '{':
@@ -80,13 +138,32 @@ def check_analyze(code: list) -> list:
 
 
 def other_analyze(code: list) -> list:
-    """Else statement analyze"""
+    """
+    Analyze an else statement.
+
+    Args:
+    - code (list): The code representing the else statement.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    """
     if len(code) != 2 or code[1] != '{':
         raise SyntaxError('Invalid syntax in other statement')
 
 
 def step_analyze(code: list) -> list:
-    """For statement analyze"""
+    """
+    Analyze a for statement.
+
+    Args:
+    - code (list): The code representing the for statement.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    """
     if code[1] != '(' or code[-2] != ')' and code[-1] != '{':
         raise SyntaxError('Invalid parentheses in step statement')
 
@@ -101,7 +178,18 @@ def step_analyze(code: list) -> list:
 
 
 def till_analyze(code: list) -> list:
-    """While statement analyze"""
+    """
+    Analyze a while statement.
+
+    Args:
+    - code (list): The code representing the while statement.
+
+    Returns:
+    - list: The analyzed code.
+
+    Raises:
+    - SyntaxError: If the expression is invalid.
+    """
     if code[1] != '(' or code[-2] != ')' and code[-1] != '{':
         raise SyntaxError('Invalid parentheses in step statement')
 

@@ -80,7 +80,6 @@ if __name__ == '__main__':
 
                 i += 1
                 while check_function(['check'] + code[check_line][index1 + 1: index2] + ['{']) == 1:
-                    # print('i = ', get_variable('i'))
                     while '}' not in code[i]:
                         if first_loop:
                             code[i] = code[i].strip()
@@ -122,8 +121,10 @@ if __name__ == '__main__':
 
         i += 1
 
+    # Output the result to 'output.txt'
     with open('output.txt', 'r') as out:
         print(out.read())
 
+    # Clear the content of 'output.txt'
     with open('output.txt', 'w') as out:
         out.write('')

@@ -5,13 +5,29 @@ from evaluate_expression import *
 
 
 def decl_function(code: list) -> int:
-    """For variable declaration"""
+    """
+    For variable declaration.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Always returns 0.
+    """
     scopes[-1][code[2]] = eval(f'{code[1].capitalize()}')(code[4])
     return 0
 
-def read_function(code: list) -> int:
-    """Input function"""
 
+def read_function(code: list) -> int:
+    """
+    Input function.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Always returns 0.
+    """
     var = get_variable(code[1])
     T = eval(var.__class__.__name__)
     value = input('Input value: ')
@@ -29,27 +45,39 @@ def read_function(code: list) -> int:
 
 
 def display_function(code: list) -> int:
-    """Print function"""
+    """
+    Print function.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Always returns 0.
+    """
     with open('output.txt', 'a') as out_stream:
         if len(code) > 2:
             expression = infix_to_postfix(' '.join(code[1:]))
-            # print(evaluate_postfix(expression))
             out_stream.write(str(evaluate_postfix(expression)) + '\n')
 
         elif is_literal(code[1]):
-            # print(code[1])
             out_stream.write(code[1] + '\n')
 
         else:
-            # print(get_variable(code[1]))
             out_stream.write(str(get_variable(code[1])) + '\n')
 
     return 0
 
 
 def assignment_function(code: list) -> int:
-    """For expressions"""
+    """
+    For expressions.
 
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Always returns 0.
+    """
     postfix = infix_to_postfix(' '.join(code[2:]))
     T = eval(get_variable(code[0]).__class__.__name__)
 
@@ -66,7 +94,15 @@ def assignment_function(code: list) -> int:
 
 
 def check_function(code: list) -> int:
-    """If statement"""
+    """
+    If statement.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Returns 1 if the condition is true, 2 otherwise.
+    """
     for i in range(len(code)):
         if is_condition_operator(code[i]):
             expression_validator(' '.join(code[1:i]))
@@ -93,7 +129,15 @@ def other_function(code: list) -> int:   # TODO
 
 
 def step_function(code: list) -> int:
-    """For statement"""
+    """
+    For statement.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Returns 3 if the condition is true, 2 otherwise.
+    """
     index1 = code.index(':')
     index2 = code.index(':', index1 + 1)
 
@@ -106,8 +150,17 @@ def step_function(code: list) -> int:
     else:
         return 2
 
+
 def till_function(code: list) -> int:
-    """While statement"""
+    """
+    While statement.
+
+    Parameters:
+    - code (list): List representing the code.
+
+    Returns:
+    - int: Returns 4 if the condition is true, 2 otherwise.
+    """
     check = check_function(['check'] + code[2:-2])
 
     if check == 1:

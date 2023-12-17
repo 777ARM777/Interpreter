@@ -3,8 +3,16 @@ from run_functions import *
 from variables import *
 from my_types import *
 
-
 def run_line(code: list) -> list:
+    """
+    Execute a line of code.
+
+    Args:
+    - code (list): The code to be executed.
+
+    Returns:
+    - list: The result of the executed code.
+    """
     if code is None or code == ['']:
         return []
     if code[0] in keywords:
@@ -14,8 +22,18 @@ def run_line(code: list) -> list:
     assignment_function(code)
 
 def analyze_code(code):
+    """
+    Analyze a code snippet and return the result.
+
+    Args:
+    - code: The code snippet to be analyzed.
+
+    Returns:
+    - None
+    """
     if not code:
         return
+
     # Split code
     is_str = False
     res = ['']
